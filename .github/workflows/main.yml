@@ -46,6 +46,11 @@ jobs:
           dependencies-cache-enabled: true
           configuration-cache-enabled: true
           arguments: assembleRelease
+      - name: Upload apk
+        uses: actions/upload-artifact@v3
+        with:
+          name: apk
+          path: app/build/outputs/apk/release/*.apk
 
       ##- name: Generate app bundle.
         ## run: ./gradlew app:bundleRelease --stacktrace
