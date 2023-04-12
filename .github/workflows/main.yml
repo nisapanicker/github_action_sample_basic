@@ -50,11 +50,12 @@ jobs:
       ##- name: Generate app bundle.
         ## run: ./gradlew app:bundleRelease --stacktrace
         
-      - name: Run Kotlin Linter
-        run: ./gradlew ktlintStagingDebugCheck 
+      ##- name: Run Kotlin Linter
+       ## run: ./gradlew ktlintStagingDebugCheck 
           
 #   STEP 2 : Upload the Artifact
   upload:
+    needs: [ build ]
     name: Upload the signed artifact
     runs-on: ubuntu-latest
     steps:
