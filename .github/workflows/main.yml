@@ -2,11 +2,19 @@ name: Android Build and Deployment Pipeline
 
 on:
   workflow_dispatch:
+    inputs:
+      branch:
+        description: 'The branch from which we have to build'
+        required: true
 jobs:
   build:
     name: Setup Environment and build
     runs-on: ubuntu-latest
-    steps:           
+    steps:
+      - name: Checkout the code to specific branch
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.inputs.branch }}
       - name: Set up JDK
         uses: actions/setup-java@v2
         with:
