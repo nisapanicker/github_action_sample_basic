@@ -43,7 +43,7 @@ jobs:
   upload:
     needs: [ build ]
     name: Upload the signed artifact
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     steps:
       - name: Upload Bundle
         uses: actions/upload-artifact@v2
