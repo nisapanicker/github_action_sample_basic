@@ -20,10 +20,10 @@ jobs:
         with:
           distribution: 'zulu'
           java-version: '11'
-                
+
       - name: Setup Android SDK
         uses: android-actions/setup-android@v2
-              
+
       - uses: actions/cache@v2
         with:
           path: |
@@ -32,7 +32,7 @@ jobs:
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
           restore-keys: |
             ${{ runner.os }}-gradle-
-            
+
       - name: Make gradlew executable
         run: chmod +x ./gradlew
         
@@ -46,19 +46,28 @@ jobs:
           dependencies-cache-enabled: true
           configuration-cache-enabled: true
           arguments: assembleRelease
+
+      - name: Save name of our Artifact
+        id: set-result-artifact
+        run: |
+              ARTIFACT_PATHNAME_APK=$(ls app/build/outputs/apk/release/*.apk | head -n 1)
+              ARTIFACT_NAME_APK=$(basename $ARTIFACT_PATHNAME_APK)
+              echo "ARTIFACT_NAME_APK is " ${ARTIFACT_NAME_APK}
+              echo "ARTIFACT_PATHNAME_APK=${ARTIFACT_PATHNAME_APK}" >> $GITHUB_ENV
+              echo "ARTIFACT_NAME_APK=${ARTIFACT_NAME_APK}" >> $GITHUB_ENV
       - name: Upload apk
         uses: actions/upload-artifact@v3
         with:
           name: apk
           path: app/build/outputs/apk/release/*.apk
 
-      ##- name: Generate app bundle.
-        ## run: ./gradlew app:bundleRelease --stacktrace
-        
-      ##- name: Run Kotlin Linter
-       ## run: ./gradlew ktlintStagingDebugCheck 
-          
-#   STEP 2 : Upload the Artifact
+          ##- name: Generate app bundle.
+          ## run: ./gradlew app:bundleRelease --stacktrace
+
+          ##- name: Run Kotlin Linter
+          ## run: ./gradlew ktlintStagingDebugCheck
+
+  #   STEP 2 : Upload the Artifact
   upload:
     needs: [ build ]
     name: Upload the signed artifact
