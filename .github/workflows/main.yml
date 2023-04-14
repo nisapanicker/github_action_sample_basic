@@ -8,6 +8,7 @@ on:
         required: true
 jobs:
   build:
+    permissions: write-all
     name: Setup Environment and build
     runs-on: ubuntu-latest
     steps:
