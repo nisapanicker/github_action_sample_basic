@@ -10,7 +10,7 @@ jobs:
   build:
     permissions: write-all
     name: Setup Environment and build
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       - name: Checkout the code to specific branch
         uses: actions/checkout@v2
@@ -95,7 +95,7 @@ jobs:
   upload:
     needs: [ build ]
     name: Upload the signed artifact
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       - name: Upload Bundle
         uses: actions/upload-artifact@v2
